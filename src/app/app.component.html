@@ -1,9 +1,6 @@
-<nav>
-  <h1>fake tweeter</h1>
-  <ul>
-    <li><a routerLink="/login">login</a></li>
-  </ul>
-</nav>
-
-<router-outlet></router-outlet>
-
+<div class="app-main-container">
+  <!-- <div class="app-header">Fake tweeter</div> -->
+  <router-outlet></router-outlet>
+  <router-outlet name="modal"></router-outlet>
+  <div class="app-footer">© 2025 Fake tweeter</div>
+</div>

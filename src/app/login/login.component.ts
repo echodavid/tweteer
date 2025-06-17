@@ -3,17 +3,23 @@ import { UserService } from '../services/user.service';
 import { Credential } from '../models/user/Credential';
 import { Router } from '@angular/router';
 import { Token } from '../models/user/Token';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-login',
   standalone: false,
+  styleUrls: ['./login.component.css'],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private storageService: StorageService,
+    private router: Router
+  ) {}
 
-  email: String = 'adsoft@live.com.mx';
-  password: String = '123';
+  email: String = '';
+  password: String = '';
   myLogin = new Token();
 
   callLogin() {
@@ -24,9 +30,22 @@ export class LoginComponent {
     myCredential.email = this.email;
     myCredential.password = this.password;
 
-    this.myLogin = this.userService.postLogin(myCredential);
-    if (this.myLogin.token != '') this.router.navigate(['/home']);
+    this.userService.postLogin(myCredential).subscribe(
+      (data: any) => {
+        this.storageService.setSession('user', myCredential.email);
+        this.storageService.setSession(
+          'token',
+          JSON.parse(JSON.stringify(data)).accessToken
+        );
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        myCredential.email = '';
+        myCredential.password = '';
+        alert(error);
+      }
+    );
 
-    console.log(this.myLogin);
+    if (this.myLogin.accessToken != '') this.router.navigate(['/home']);
   }
 }

@@ -10,6 +10,10 @@ import { UserService } from './services/user.service';
 import { NewUserComponent } from './new-user/new-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HomeComponent } from './home/home.component';
+import { WebsocketService } from './services/webSockets.service';
+import { TweetComponent } from './tweet/tweet.component';
+import { TweetModalComponent } from './tweet-modal/TweetModalComponent';
 
 @NgModule({
   declarations: [
@@ -18,9 +22,19 @@ import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http'
     LoginComponent,
     NewUserComponent,
     ForgotPasswordComponent,
+    HomeComponent,
+    TweetComponent,
+    TweetModalComponent
   ],
-  imports: [FormsModule, BrowserModule, CommonModule, AppRoutingModule, HttpClientModule],
-  providers: [UserService, HttpClient],
+  imports: [
+    FormsModule,
+    CommonModule,
+    BrowserModule,
+    CommonModule,
+    AppRoutingModule,
+    HttpClientModule,
+  ],
+  providers: [UserService, HttpClient, WebsocketService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

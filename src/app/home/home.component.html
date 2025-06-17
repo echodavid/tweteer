@@ -1,0 +1,60 @@
+<div class="main-layout">
+  <nav class="side-menu" [class.open]="menuOpen">
+    <button class="close-menu-btn" (click)="toggleMenu()">✕</button>
+    <div class="menu-user">
+      <span class="menu-avatar">{{ username[0] | uppercase }}</span>
+      <span class="menu-username">{{'@'+ username }}</span>
+    </div>
+    <ul>
+      <li><a routerLink="/home" (click)="toggleMenu()">Inicio</a></li>
+      <!-- <li><a routerLink="/profile" (click)="toggleMenu()">Perfil</a></li> -->
+      <li><button class="logout-btn" (click)="logout()">Cerrar sesión</button></li>
+    </ul>
+  </nav>
+
+  <div class="content-area">
+    <header class="top-bar">
+      <button class="menu-btn" (click)="toggleMenu()">☰</button>
+      <span class="top-bar-title">Fake tweeter</span>
+    </header>
+
+    <div class="home-container">
+      <div class="welcome-banner">
+        <p>
+          Welcome <span class="username">{{ username }}</span>
+        </p>
+      </div>
+
+      <form class="tweet-form sticky-bottom" (submit)="addTweet(); $event.preventDefault();">
+        <input
+          type="text"
+          name="item"
+          [(ngModel)]="tweetText"
+          placeholder="Escribe tu tweet..."
+          maxlength="280"
+          class="tweet-input"
+        >
+        <div class="tweet-form-footer">
+          <span class="tweet-char-count" [class.limit]="tweetText.length > 260">
+            {{ tweetText.length || 0 }}/280
+          </span>
+          <button
+            type="submit"
+            class="tweet-btn"
+            [disabled]="!tweetText || tweetText.length > 280"
+          >
+            Agregar
+          </button>
+        </div>
+      </form>
+
+      <div class="tweets-list">
+        <app-tweet
+          *ngFor="let tweet of tweets.slice().reverse()"
+          [tweet]="tweet"
+          [reactionTypes]="reactionTypes">
+        </app-tweet>
+      </div>
+    </div>
+  </div>
+</div>

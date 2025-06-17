@@ -1,0 +1,72 @@
+<div class="modal-backdrop" (click)="close()"></div>
+<div class="modal-content">
+  <div *ngIf="loading" class="modal-loading">
+    <div class="loader"></div>
+    <span>Cargando tweet...</span>
+  </div>
+  <div *ngIf="!loading && tweet" class="tweet-modal-body">
+    <div class="tweet-modal-header">
+      <div class="tweet-avatar">
+        <span>{{ tweet!.postedBy[0] | titlecase }}</span>
+      </div>
+      <div class="tweet-user-info">
+        <span class="tweet-user">{{'@'+ tweet!.postedBy }}</span>
+        <span class="tweet-id">#{{ tweet!.id }}</span>
+      </div>
+      <button class="close-btn" (click)="close()" title="Cerrar">×</button>
+    </div>
+    <div class="tweet-content">
+      {{ tweet.tweet }}
+    </div>
+    <div class="tweet-reactions">
+      <ng-container *ngFor="let reaction of reactionTypes">
+        <button
+          class="reaction-btn"
+          [ngClass]="{'selected': tweet.userReaction === reaction}"
+          (click)="onReact(reaction)"
+          [title]="reaction"
+        >
+          <span class="emoji">{{ getReactionEmoji(reaction) }}</span>
+          <span class="count">{{ tweet.reactionCounts[reaction] || 0 }}</span>
+        </button>
+      </ng-container>
+    </div>
+    <div class="comments-section">
+      <div class="comments-title">
+        <span>Comentarios</span>
+        <span class="comments-count">{{ comments.length }}</span>
+      </div>
+      <form (ngSubmit)="submitComment()" #commentForm="ngForm" class="comment-form">
+        <div class="comment-input-wrapper">
+          <span class="comment-input-icon">💬</span>
+          <input
+            type="text"
+            name="content"
+            [(ngModel)]="newComment"
+            required
+            maxlength="255"
+            placeholder="Escribe un comentario y presiona Enter…"
+            class="comment-input"
+            autocomplete="off"
+          />
+        </div>
+        <button type="submit" [disabled]="!newComment || commentForm.invalid" class="comment-send-btn">
+          <span>Enviar</span> 🚀
+        </button>
+      </form>
+      <div *ngIf="comments.length === 0" class="no-comments">
+        No hay comentarios aún.
+      </div>
+      <div class="comment" *ngFor="let comment of comments.slice().reverse()">
+        <div class="comment-avatar">
+          <span>{{ comment.username[0] | uppercase }}</span>
+        </div>
+        <div class="comment-body">
+          <span class="comment-user">{{ comment.username }}</span>
+          <span class="comment-content">{{ comment.content }}</span>
+          <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

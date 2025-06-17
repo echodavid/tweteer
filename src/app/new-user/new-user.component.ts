@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-user',
   standalone: false,
+  styleUrls: ['./new-user.component.css'],
   templateUrl: './new-user.component.html',
 })
 export class NewUserComponent {
@@ -13,14 +14,21 @@ export class NewUserComponent {
 
   myPayloadUser = new User();
   myNewUser = new User();
-
+// ...existing code...
   createUser() {
     console.log(this.myPayloadUser);
 
-    this.myNewUser = this.userService.createUser(this.myPayloadUser);
-
-    console.log(this.myNewUser);
-
-    if (this.myNewUser.id != 0) this.router.navigate(['/login']);
+    this.userService.createUser(this.myPayloadUser).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        // Puedes mostrar un mensaje de éxito aquí si quieres
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error(err);
+        // Puedes mostrar un mensaje de error aquí si quieres
+      }
+    });
   }
+// ...existing code...
 }

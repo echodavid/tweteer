@@ -1,0 +1,33 @@
+<div class="tweet-card" *ngIf="tweet">
+  <div class="tweet-header">
+    <div class="tweet-avatar">
+      <span>{{ tweet.postedBy[0] | uppercase }}</span>
+    </div>
+    <div class="tweet-user-info">
+      <span class="tweet-user">{{ '@'+tweet.postedBy }}</span>
+      <span class="tweet-id">#{{ tweet.id }}</span>
+    </div>
+    <button class="open-comments-btn" (click)="openComments()" title="Ver comentarios">
+      💬 Comentarios
+    </button>
+    <button class="share-btn" (click)="shareTweet()" title="Compartir">
+      📤 Compartir
+    </button>
+  </div>
+  <div class="tweet-content">
+    {{ tweet.tweet }}
+  </div>
+  <div class="tweet-reactions">
+    <ng-container *ngFor="let reaction of reactionTypes">
+      <button
+        class="reaction-btn"
+        [ngClass]="{'selected': tweet.userReaction === reaction}"
+        (click)="onReact(reaction)"
+        [title]="reaction"
+      >
+        <span class="emoji">{{ getReactionEmoji(reaction) }}</span>
+        <span class="count">{{ tweet.reactionCounts[reaction] || 0 }}</span>
+      </button>
+    </ng-container>
+  </div>
+</div>

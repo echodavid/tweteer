@@ -1,54 +1,34 @@
-<table border=1>
-  <tr>
-    <td> Sign up for CRM-uv  </td> <td>
-    <a routerLink="/">
-       cancel
-    </a>
-    </td>
-  </tr>
-  <tr>
-    <td colspan=2> Email </td>
-  </tr>
-
-  <tr>
-   <td colspan=2> <input type="email" [(ngModel)]="myPayloadUser.email" >  </td>
-  </tr>
-
-  <tr>
-  <td> First Name </td> <td> Last Name  </td>
-  </tr>
-
-  <tr>
-  <td>  <input type="text" [(ngModel)]="myPayloadUser.firstName" name="firstName" >  </td>
-   <td> <input type="text" [(ngModel)]="myPayloadUser.lastName">  </td>
-  </tr>
-
-  <tr>
-  <td colspan=2> Password </td>
-  </tr>
-  <tr colspan=2>
-  <td>  <input type="password" [(ngModel)]="myPayloadUser.password">  </td>
-  </tr>
-
-
-  <tr>
-   <td colspan=2 >
-
-     Please provide a password of at least 8 chars
-
-  </td>
-  </tr>
-  <tr>
-  <td colspan=2>
-     <input type="checkbox"> I have read and agree to CRM-univ ...
-   </td>
-  </tr>
-  <tr>
-   <td></td> <td>
-    <button (click)="createUser()">
-         create
-    </button>
-
-   </td>
-  </tr>
-  </table>
+<div class="register-card">
+  <div class="register-header">
+    <span class="register-logo">🐦</span>
+    <span class="register-title">Create your account</span>
+  </div>
+  <form (ngSubmit)="createUser()" autocomplete="off">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" type="text" [(ngModel)]="myPayloadUser.username" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" [(ngModel)]="myPayloadUser.email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" [(ngModel)]="myPayloadUser.password" name="password" required>
+    </div>
+    <!-- Uncomment if you want to select role
+    <div class="form-group">
+      <label for="role">Role</label>
+      <select id="role" [(ngModel)]="myPayloadUser.role" name="role" multiple>
+        <option value="user">User</option>
+        <option value="mod">Moderator</option>
+      </select>
+    </div>
+    -->
+    <button type="submit" class="register-btn">Create Account</button>
+    <div class="register-footer">
+      Already have an account?
+      <a routerLink="/login">Log in</a>
+    </div>
+  </form>
+</div>

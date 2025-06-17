@@ -3,6 +3,7 @@ import { Credential } from '../models/user/Credential';
 import { User } from '../models/user/User';
 import { Token } from '../models/user/Token';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -19,53 +20,48 @@ export class UserService {
     }),
   };
 
-  postLogin(myCredential: Credential): Token {
-    console.log('email ... ' + myCredential.email);
-    console.log('password ... ' + myCredential.password);
+  errorMessage = '';
+
+  postLogin(myCredential: Credential) {
+    // console.log('email ... ' + myCredential.email);
+    // console.log('password ... ' + myCredential.password);
+
+    // var myToken = new Token();
+
+    // // call fake api
+    // if (
+    //   myCredential.email == 'adsoft@live.com.mx' &&
+    //   myCredential.password == '123'
+    // ) {
+    //   myToken.id = '0001';
+    //   myToken.username = 'adsoft';
+    //   myToken.token = 'gcp747844sdjksdkjsdkjds895850vb3';
+    // } else {
+    //   myToken.id = '0';
+    //   myToken.username = 'bad credentials';
+    //   myToken.token = '';
+    // }
+
+    // return myToken;
+
+    const body = {
+      username: myCredential.email,
+      password: myCredential.password,
+    };
+    console.log(body);
 
     var myToken = new Token();
 
-    // call fake api
-    if (
-      myCredential.email == 'adsoft@live.com.mx' &&
-      myCredential.password == '123'
-    ) {
-      myToken.id = '0001';
-      myToken.username = 'adsoft';
-      myToken.token = 'gcp747844sdjksdkjsdkjds895850vb3';
-    } else {
-      myToken.id = '0';
-      myToken.username = 'bad credentials';
-      myToken.token = '';
-    }
-
-    return myToken;
+    return this.http
+      .post(this.apiURL + 'api/auth/signin', body, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
+  // Example: createUser function for frontend (e.g., in React or plain JS)
 
-  createUser(myUser: User): User {
-    console.log('email ... ' + myUser.email);
-    console.log('password ... ' + myUser.password);
-
-    var myNewUser = new User();
-
-    // call fake api - create user
-    // Success
-    myNewUser.id = 0;
-
-    if (myNewUser.id != 0) {
-      console.log('Success ' + myNewUser.id);
-      myNewUser.id = 1; // Success
-      myNewUser.email = myUser.email;
-      myNewUser.firstName = myUser.firstName;
-      myNewUser.lastName = myUser.lastName;
-      myNewUser.password = myUser.password;
-    } else {
-      console.log('Error' + myNewUser.id);
-
-      myNewUser.id = 0; // Error
-    }
-
-    return myNewUser;
+  createUser(userData: User) {
+    return this.http
+      .post(this.apiURL + 'api/auth/signup', userData, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   resetPassword(email: String, password: String, token: String): String {
@@ -83,12 +79,12 @@ export class UserService {
 
     var myUser = this.validateUser(email);
 
-    if (myUser.id != 0) {
-      var myUrlReset = this.createUrlReset(myUser.email);
-      console.log(myUrlReset);
-      var sendEmail = this.sendEmail(myUser.email, myUrlReset);
-      console.log(sendEmail);
-    }
+    // if (myUser.id != 0) {
+    //   var myUrlReset = this.createUrlReset(myUser.email);
+    //   console.log(myUrlReset);
+    //   var sendEmail = this.sendEmail(myUser.email, myUrlReset);
+    //   console.log(sendEmail);
+    // }
 
     return myUser;
   }
@@ -133,6 +129,11 @@ export class UserService {
     return myToken;
   }
 
+  logout() {
+    localStorage.clear();
+    console.log('User logged out');
+  }
+
   validateUser(email: String): User {
     // call fake query api by email
 
@@ -140,16 +141,16 @@ export class UserService {
 
     // Success, email valid
     if (email == 'adsoft@live.com.mx') {
-      console.log('Success ' + myUser.id);
-      myUser.id = 1; // Success
-      myUser.email = email;
-      myUser.firstName = 'Adolfo';
-      myUser.lastName = 'Centeno';
+      // console.log('Success ' + myUser.id);
+      // myUser.id = 1; // Success
+      // myUser.email = email;
+      // myUser.firstName = 'Adolfo';
+      // myUser.lastName = 'Centeno';
       myUser.password = '';
-    } else {
-      console.log('Error' + myUser.id);
+    // } else {
+    //   console.log('Error' + myUser.id);
 
-      myUser.id = 0; // Error
+    //   myUser.id = 0; // Error
     }
 
     return myUser;
@@ -169,5 +170,16 @@ export class UserService {
     var istokenDestroyed = 1;
     console.log('destroying token ... ' + token);
     return '' + istokenDestroyed;
+  }
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMeesage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    window.alert(errorMessage);
+    return throwError(errorMessage);
   }
 }

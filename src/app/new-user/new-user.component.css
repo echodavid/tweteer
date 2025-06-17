@@ -1,0 +1,111 @@
+.register-card {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.10);
+  max-width: 370px;
+  margin: 60px auto 0 auto;
+  padding: 36px 32px 28px 32px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #1877f2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.register-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.register-logo {
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+}
+
+.register-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+label {
+  font-size: 1rem;
+  color: #1976d2;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  padding: 10px 12px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f9fbff;
+  color: #222;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+input:focus,
+select:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px #e7f3ff;
+  outline: none;
+  background: #fff;
+}
+
+.register-btn {
+  background: linear-gradient(90deg, #1877f2 60%, #42a5f5 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 10px 10px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 2px #1877f21a;
+}
+
+.register-btn:hover {
+  background: #1565c0;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.98rem;
+  color: #888;
+}
+
+.register-footer a {
+  color: #1877f2;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 6px;
+  transition: color 0.18s;
+}
+
+.register-footer a:hover {
+  color: #0d47a1;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .register-card {
+    max-width: 98vw;
+    padding: 18px 4vw 18px 4vw;
+  }
+}

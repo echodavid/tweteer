@@ -10,14 +10,14 @@ import { Router } from '@angular/router';
 export class ForgotPasswordComponent {
   email: String = '';
 
-  constructor(private userService: UserService, private router: Router) {}
-  resetPassword() {
-    console.log(this.email);
+  // constructor(private userService: UserService, private router: Router) {}
+  // resetPassword() {
+  //   console.log(this.email);
 
-    var myValidUser = this.userService.sendUrlResetPassword(this.email);
+  //   var myValidUser = this.userService.sendUrlResetPassword(this.email);
 
-    if (myValidUser.id != 0) this.router.navigate(['/']);
+  //   if (myValidUser.id != 0) this.router.navigate(['/']);
 
-    console.log(myValidUser);
-  }
+  //   console.log(myValidUser);
+  // }
 }
